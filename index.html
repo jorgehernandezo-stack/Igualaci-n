@@ -13,7 +13,7 @@
         select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         .consent-box { text-align: left; line-height: 1.5; font-size: 14px; background: #fdfdfd; padding: 25px; border: 1px solid #ddd; border-radius: 8px; overflow-y: auto; max-height: 400px; margin-bottom: 20px; }
         .info-label { font-weight: bold; color: #2c3e50; display: block; margin-top: 10px; text-decoration: underline; }
-        .stimulus-sample { font-size: 70px; font-weight: bold; margin: 30px auto; padding: 25px; border: 4px solid #007bff; width: 140px; cursor: pointer; border-radius: 15px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .stimulus-sample { font-size: 70px; font-weight: bold; margin: 30px auto; padding: 25px; border: 4px solid #007bff; width: 160px; cursor: pointer; border-radius: 15px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .options-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 25px; }
         .option-btn { padding: 20px 40px; font-size: 32px; cursor: pointer; border: 2px solid #2c3e50; border-radius: 10px; background: #fff; font-weight: bold; }
         #feedback { font-size: 26px; font-weight: bold; margin-top: 35px; height: 40px; }
@@ -24,31 +24,24 @@
 <body>
 
 <div id="experiment-container">
-    
     <div id="section-consent">
         <h1>Consentimiento Informado</h1>
         <div class="consent-box">
             <p><strong>Título del Proyecto:</strong> Estudio sobre procesos de discriminación condicional (Igualación a la muestra).</p>
             <p><strong>Investigador(a):</strong> Jorge Hernandez, Itzel Tamayo, Lilian Martin del campo, Amairani Muñoz, Samuel Salazar</p>
             <p><strong>Institución:</strong> Universidad Insurgentes Plantel Sur II</p>
-            
             <span class="info-label">1. Propósito del Estudio</span>
-            <p>El objetivo de esta actividad es recolectar datos con fines estrictamente académicos para analizar los procesos de respuesta ante tareas de igualación a la muestra. Se busca observar cómo se establecen relaciones entre diferentes estímulos.</p>
-            
+            <p>El objetivo de esta actividad es recolectar datos con fines estrictamente académicos para analizar los procesos de respuesta ante tareas de igualación a la muestra.</p>
             <span class="info-label">2. Procedimiento</span>
-            <p>Si decide participar, se le pedirá que realice una tarea en una computadora/dispositivo móvil. Se le presentará un estímulo "muestra" y varios estímulos de "comparación". Su tarea consistirá en seleccionar el estímulo que corresponde a la muestra según los criterios de la prueba. La duración estimada es de 10-20 minutos.</p>
-            
+            <p>Se le presentará un estímulo "muestra" y varios estímulos de "comparación". Su tarea consistirá en seleccionar el estímulo que corresponde a la muestra.</p>
             <span class="info-label">3. Confidencialidad y Manejo de Datos</span>
-            <p>Toda la información recolectada será estrictamente confidencial. Los datos serán anónimos. Los resultados se utilizarán únicamente para la elaboración de un trabajo académico y no serán compartidos con terceros ajenos al proceso de evaluación docente.</p>
-            
+            <p>Toda la información recolectada será estrictamente confidencial. Los datos serán anónimos.</p>
             <span class="info-label">4. Riesgos y Beneficios</span>
-            <p>No existen riesgos físicos ni psicológicos previstos por participar en esta tarea. Usted no recibirá una compensación económica, pero su participación contribubre al avance del aprendizaje académico en la carrera de psicologia.</p>
-            
+            <p>No existen riesgos físicos ni psicológicos previstos. Su participación contribuye al aprendizaje académico.</p>
             <span class="info-label">5. Voluntariedad</span>
-            <p>Su participación es totalmente voluntaria. Usted tiene el derecho de retirarse del estudio en cualquier momento, sin tener que dar explicaciones y sin que esto le acarree ninguna consecuencia negativa.</p>
-            
+            <p>Su participación es totalmente voluntaria y puede retirarse en cualquier momento.</p>
             <hr>
-            <p><strong>Declaración de Consentimiento:</strong> He leído y comprendido la información anterior. Se me han aclarado mis dudas y acepto participar voluntariamente en este estudio.</p>
+            <p><strong>Declaración de Consentimiento:</strong> He leído y comprendido la información anterior. Acepto participar voluntariamente.</p>
             <p>Aceptación: [x] Sí, acepto participar.</p>
             <p><strong>Fecha:</strong> 17/12/2025</p>
         </div>
@@ -58,11 +51,11 @@
     <div id="section-data" class="hidden">
         <h1>Datos del Participante</h1>
         <div class="form-group">
-            <label for="edad">Seleccione su Edad:</label>
+            <label for="p-edad">Seleccione su Edad:</label>
             <select id="p-edad"></select>
         </div>
         <div class="form-group">
-            <label for="sexo">Sexo Biológico:</label>
+            <label for="p-sexo">Sexo Biológico:</label>
             <select id="p-sexo">
                 <option value="Hombre">Masculino</option>
                 <option value="Mujer">Femenino</option>
@@ -98,7 +91,6 @@
 </div>
 
 <script>
-    // Generar edades 18-99
     const edadSelect = document.getElementById('p-edad');
     for(let i=18; i<=99; i++) {
         let opt = document.createElement('option');
@@ -106,19 +98,20 @@
         edadSelect.appendChild(opt);
     }
 
+    // Estímulos de investigación (Trigramas CVC)
     const stim = {
-        correct: { A: "A1", B: "B1", C: "C1" },
-        distractors: { A: ["A2", "A3"], B: ["B2", "B3"], C: ["C2", "C3"] }
+        correct: { A: "VEC", B: "GOM", C: "JAL" },
+        distractors: { A: ["ZID", "KEP"], B: ["LUT", "VOR"], C: ["NAX", "PIB"] }
     };
 
     const phases = [
-        { id: 0, num: "1", name: "A-B", type: "train", rel: "AB", minTrials: 18 },
-        { id: 1, num: "2", name: "B-C", type: "train", rel: "BC", minTrials: 18 },
-        { id: 2, num: "3", name: "Mixta", type: "train", rel: "MIX", minTrials: 36 },
-        { id: 3, num: "4", name: "BA", type: "test", rel: "BA", trials: 12 },
-        { id: 4, num: "5", name: "CB", type: "test", rel: "CB", trials: 12 },
-        { id: 5, num: "6", name: "AC", type: "test", rel: "AC", trials: 12 },
-        { id: 6, num: "7", name: "CA", type: "test", rel: "CA", trials: 12 }
+        { id: 0, num: "1", rel: "AB", type: "train", minTrials: 18 },
+        { id: 1, num: "2", rel: "BC", type: "train", minTrials: 18 },
+        { id: 2, num: "3", rel: "MIX", type: "train", minTrials: 36 },
+        { id: 3, num: "4", rel: "BA", type: "test", trials: 12 },
+        { id: 4, num: "5", rel: "CB", type: "test", trials: 12 },
+        { id: 5, num: "6", rel: "AC", type: "test", trials: 12 },
+        { id: 6, num: "7", rel: "CA", type: "test", trials: 12 }
     ];
 
     let currentPhaseIdx = 0;
@@ -161,7 +154,7 @@
         else if (rel === "CB") { sample = stim.correct.C; correct = stim.correct.B; options = [stim.correct.B, ...stim.distractors.B]; }
         else if (rel === "AC") { sample = stim.correct.A; correct = stim.correct.C; options = [stim.correct.C, ...stim.distractors.C]; }
         else if (rel === "CA") { sample = stim.correct.C; correct = stim.correct.A; options = [stim.correct.A, ...stim.distractors.A]; }
-        trialsList = [{ sample, correct, options: options.sort(() => Math.random() - 0.5), relation: rel }];
+        trialsList = [{ sample, correct, options: options.sort(() => Math.random() - 0.5) }];
     }
 
     function showTrial() {
@@ -241,12 +234,8 @@
 
     function downloadExcel() {
         let csv = "data:text/csv;charset=utf-8,";
-        // Encabezados solicitados
-        csv += "Participante,Edad,Sexo,Ensayos para Fase A-B al 84%,Ensayos para Fase A-C al 84%,Ensayos para Fase Mixta al 84%,Simetria 1 (B-A) Aciertos (%),Criterio Simetria 1,Simetria 2 (C-A) Aciertos (%),Criterio Simetria 2,Equivalencia 1 (B-C) Aciertos (%),Criterio Equivalencia 1,Equivalencia 2 (C-B) Aciertos (%),Criterio Equivalencia 2\n";
-        
-        // Fila de datos (Participante se deja vacío o como "Sujeto")
+        csv += "Participante,Edad,Sexo,Fase A-B,Fase B-C,Fase Mixta,Simetria 1 %,Criterio S1,Simetria 2 %,Criterio S2,Equivalencia 1 %,Criterio E1,Equivalencia 2 %,Criterio E2\n";
         csv += `Sujeto,${summary.edad},${summary.sexo},${summary.f1_n},${summary.f2_n},${summary.f3_n},${summary.s1_p},${summary.s1_c},${summary.s2_p},${summary.s2_c},${summary.e1_p},${summary.e1_c},${summary.e2_p},${summary.e2_c}\n`;
-        
         const encodedUri = encodeURI(csv);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
@@ -256,5 +245,4 @@
     }
 </script>
 </body>
-
 </html>
