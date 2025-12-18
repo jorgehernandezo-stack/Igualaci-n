@@ -203,7 +203,7 @@
         }
     }
 
-    function finishPhase() {
+   function finishPhase() {
         const phase = phases[currentPhaseIdx];
         if (phase.id === 0) summary.f1_n = currentTrial;
         if (phase.id === 1) summary.f2_n = currentTrial;
@@ -225,7 +225,37 @@
         } else {
             document.getElementById('experiment-area').classList.add('hidden');
             document.getElementById('section-final').classList.remove('hidden');
+            // AQUÍ SE DISPARA EL ENVÍO AUTOMÁTICO
+            enviarADrive();
         }
+    }
+
+    function enviarADrive() {
+        // REEMPLAZA ESTA URL CON LA TUYA DE GOOGLE APPS SCRIPT
+        const URL_WEB_APP = "TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI";
+
+        const formData = new URLSearchParams();
+        formData.append("edad", summary.edad);
+        formData.append("sexo", summary.sexo);
+        formData.append("f1_n", summary.f1_n);
+        formData.append("f2_n", summary.f2_n);
+        formData.append("f3_n", summary.f3_n);
+        formData.append("s1_p", summary.s1_p);
+        formData.append("s1_c", summary.s1_c);
+        formData.append("s2_p", summary.s2_p);
+        formData.append("s2_c", summary.s2_c);
+        formData.append("e1_p", summary.e1_p);
+        formData.append("e1_c", summary.e1_c);
+        formData.append("e2_p", summary.e2_p);
+        formData.append("e2_c", summary.e2_c);
+
+        fetch(URL_WEB_APP, {
+            method: "POST",
+            body: formData,
+            mode: "no-cors" 
+        })
+        .then(() => console.log("Datos enviados al Excel"))
+        .catch(err => console.error("Error de red:", err));
     }
 
     document.addEventListener('keydown', (e) => {
@@ -244,5 +274,3 @@
         link.click();
     }
 </script>
-</body>
-</html>
